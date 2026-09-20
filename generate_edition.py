@@ -49,10 +49,11 @@ def apply_ocr_and_text_fixes(html_str, fname):
     html_str = html_str.replace('very, well expressed', 'very well expressed')
     html_str = html_str.replace('And so on, What would', 'And so on. What would')
     
-    # Stray quote in laws of behaviour’’
-    html_str = html_str.replace('laws of behaviour’\u2019', 'laws of behaviour’')
-    html_str = html_str.replace('laws of behaviour\'\'', 'laws of behaviour’')
-    html_str = html_str.replace('laws of behaviour’’', 'laws of behaviour’')
+    # Stray doubled quote in laws of behaviour: \u2018\u2019 (left single quote + right single quote)
+    html_str = html_str.replace('laws of behaviour\u2018\u2019', 'laws of behaviour\u2019')
+    html_str = html_str.replace('laws of behaviour\u2019\u2019', 'laws of behaviour\u2019')
+    html_str = html_str.replace('laws of behaviour\'\'', 'laws of behaviour\u2019')
+    html_str = re.sub(r'laws of behaviour[\u2018\u2019\']{2,}', 'laws of behaviour\u2019', html_str)
     
     # Stray space in exponent 10^ 150,000
     html_str = re.sub(r'10<sup>\s+150,000</sup>', '10<sup>150,000</sup>', html_str)
