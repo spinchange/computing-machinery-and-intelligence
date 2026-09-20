@@ -1291,10 +1291,26 @@ body {
     }
 }
 
-@media (max-width: 600px) {
-    .topbar-right .read-stats,
+@media (max-width: 768px) {
+    /* Hide font resize controls on mobile/tablets to prevent crowding */
+    .font-controls,
     .topbar-right .divider {
         display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .topbar-inner {
+        padding: 0 0.85rem;
+    }
+
+    .topbar-right .read-stats {
+        display: none;
+    }
+
+    .theme-btn {
+        padding: 0.25rem 0.45rem;
+        font-size: 0.75rem;
     }
 
     .dialogue-turn {
@@ -1310,6 +1326,16 @@ body {
 
     .section-content p {
         text-align: left;
+    }
+}
+
+@media (max-width: 440px) {
+    .cite-btn .btn-text {
+        display: none;
+    }
+
+    .cite-btn {
+        padding: 0.4rem 0.5rem;
     }
 }
 
