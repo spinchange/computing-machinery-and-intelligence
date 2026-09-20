@@ -1,4 +1,4 @@
-const CACHE_NAME = 'turing-1950-v2';
+const CACHE_NAME = 'turing-1950-v3';
 
 const ASSETS = [
   './',

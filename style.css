@@ -1239,10 +1239,13 @@ body {
    -------------------------------------------------------------------------- */
 
 @media (max-width: 1200px) {
+    .page-marker {
+        display: inline;
+        height: auto;
+    }
+
     .page-marker-badge {
-        position: static;
-        display: inline-block;
-        margin: 0.5rem 0;
+        display: none !important;
     }
 }
 
