@@ -26,8 +26,14 @@ A distraction-free, beautifully formatted digital reading edition of Alan Turing
   - Inline references with hover tooltips for previewing notes without losing reading position, plus bottom anchor links with return jump (`↩`).
 - **🔍 Quick Citations**:
   - One-click copy for **Chicago/APA** and **BibTeX** citations.
-- **📱 Responsive & Print-Ready**:
-  - Mobile drawer navigation and clean print styles (`@media print`) suitable for saving to PDF or physical printing.
+- **📱 Installable PWA & Offline Reading**:
+  - Full Web App Manifest (`manifest.json`) and Service Worker (`sw.js`). Installable as a standalone, distraction-free reading app on iOS, iPadOS, Android, and desktop with 100% offline access.
+- **🤖 LLM-Friendly Endpoints (`llms.txt`)**:
+  - Structured AI discovery index at [`/llms.txt`](llms.txt) and complete unabridged paper in clean Markdown at [`/llms-full.txt`](llms-full.txt).
+- **🎓 Scholarly JSON-LD & Zotero Support**:
+  - Embedded Schema.org `ScholarlyArticle` metadata enabling one-click citation capture in research tools.
+- **🖨️ Clean Print Stylesheet**:
+  - Dedicated `@media print` rules for physical printing or clean PDF saving.
 
 ---
 

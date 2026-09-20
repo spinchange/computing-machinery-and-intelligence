@@ -414,6 +414,10 @@ colophon_html = '''
             <p>This digital edition is transcribed from the original 1950 print pages. Known OCR errors have been carefully corrected, while authentic 1950 grammatical and typographical idiosyncrasies (such as “possibility than an engineer”, “infinitive capacity computers”, and “possible, to programme”) have been deliberately preserved. Original journal page transitions are preserved as margin anchors (<em>p. 433</em> through <em>p. 460</em>). Internal cross-references and Turing’s original footnotes are linked interactively.</p>
         </div>
         <div class="colophon-item">
+            <h4>Machine-Readable &amp; LLM Endpoints</h4>
+            <p>This digital edition provides native machine endpoints: an AI index at <a href="llms.txt" target="_blank"><code>/llms.txt</code></a>, the complete unabridged paper in clean Markdown at <a href="llms-full.txt" target="_blank"><code>/llms-full.txt</code></a>, a PWA manifest at <a href="manifest.json" target="_blank"><code>/manifest.json</code></a>, and Schema.org academic JSON-LD metadata.</p>
+        </div>
+        <div class="colophon-item">
             <h4>Copyright &amp; Licensing</h4>
             <p>Alan Turing passed away on June 7, 1954. In the United Kingdom and other life-plus-70 copyright jurisdictions, Alan Turing’s original writings entered the <strong>Public Domain</strong> on January 1, 2025. (Copyright status in other jurisdictions, such as the United States where protection for foreign works published in 1950 may run for 95 years from publication through 2046, may differ). The typography, responsive layout, interactive features, and digital design of this edition are dedicated to the public domain under the <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">Creative Commons Zero (CC0 1.0 Universal) Deed</a>.</p>
         </div>
@@ -433,6 +437,20 @@ full_html = f'''<!DOCTYPE html>
     <!-- Canonical Link -->
     <link rel="canonical" href="https://spinchange.github.io/computing-machinery-and-intelligence/">
     
+    <!-- Favicon & PWA Web App Manifest -->
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#fcfbf9">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Turing (1950)">
+    
+    <!-- Machine-Readable LLM Discovery Links -->
+    <link rel="alternate" type="text/markdown" href="llms.txt" title="LLM Context Index">
+    <link rel="alternate" type="text/markdown" href="llms-full.txt" title="Unabridged Paper (Markdown)">
+    
     <!-- OpenGraph / Social Metadata -->
     <meta property="og:site_name" content="Computing Machinery and Intelligence">
     <meta property="og:title" content="Computing Machinery and Intelligence — Alan M. Turing (1950)">
@@ -449,6 +467,45 @@ full_html = f'''<!DOCTYPE html>
     <meta name="twitter:title" content="Computing Machinery and Intelligence — Alan M. Turing (1950)">
     <meta name="twitter:description" content="A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper introducing the Turing Test and the Imitation Game.">
     <meta name="twitter:image" content="https://spinchange.github.io/computing-machinery-and-intelligence/og-preview.png">
+    
+    <!-- Schema.org JSON-LD Academic Metadata -->
+    <script type="application/ld+json">
+    {{
+      "@context": "https://schema.org",
+      "@type": "ScholarlyArticle",
+      "name": "Computing Machinery and Intelligence",
+      "headline": "Computing Machinery and Intelligence",
+      "url": "https://spinchange.github.io/computing-machinery-and-intelligence/",
+      "author": {{
+        "@type": "Person",
+        "name": "Alan M. Turing",
+        "sameAs": "https://en.wikipedia.org/wiki/Alan_Turing"
+      }},
+      "datePublished": "1950-10",
+      "isPartOf": {{
+        "@type": "PublicationIssue",
+        "name": "Mind: A Quarterly Review of Psychology and Philosophy",
+        "volumeNumber": "59",
+        "issueNumber": "236",
+        "pageStart": "433",
+        "pageEnd": "460"
+      }},
+      "inLanguage": "en",
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "publisher": {{
+        "@type": "Organization",
+        "name": "Mind Association / Oxford University Press"
+      }},
+      "about": [
+        "Artificial Intelligence",
+        "Turing Test",
+        "Imitation Game",
+        "Philosophy of Mind",
+        "Digital Computers"
+      ],
+      "description": "A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper 'Computing Machinery and Intelligence' introducing the Turing Test and the Imitation Game."
+    }}
+    </script>
     
     <!-- Self-Hosted Stylesheet (Zero external dependencies) -->
     <link rel="stylesheet" href="style.css">

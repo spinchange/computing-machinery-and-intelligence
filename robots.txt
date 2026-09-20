@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://spinchange.github.io/computing-machinery-and-intelligence/sitemap.xml

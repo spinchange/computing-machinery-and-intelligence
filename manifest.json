@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "id": "/computing-machinery-and-intelligence/",
+  "name": "Computing Machinery and Intelligence — Alan Turing (1950)",
+  "short_name": "Turing (1950)",
+  "description": "A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper introducing the Turing Test and the Imitation Game.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#fcfbf9",
+  "background_color": "#f5eedb",
+  "lang": "en",
+  "categories": ["books", "education", "philosophy"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

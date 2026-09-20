@@ -24,6 +24,13 @@
         themeButtons.forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
         });
+
+        // Sync theme-color meta tag for PWA / mobile browser chrome
+        const themeMeta = document.querySelector('meta[name="theme-color"]');
+        if (themeMeta) {
+            const colors = { light: '#fcfbf9', parchment: '#f5eedb', dark: '#121214' };
+            themeMeta.setAttribute('content', colors[theme] || '#fcfbf9');
+        }
     }
 
     function initTheme() {
@@ -387,6 +394,13 @@
         // Passive scroll listener for progress bar
         window.addEventListener('scroll', updateProgress, { passive: true });
         updateProgress();
+
+        // Register Service Worker for offline PWA reading
+        if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(() => {});
+            });
+        }
     }
 
     if (document.readyState === 'loading') {
