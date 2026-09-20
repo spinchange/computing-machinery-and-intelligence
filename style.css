@@ -1,0 +1,1342 @@
+/* ==========================================================================
+   COMPUTING MACHINERY AND INTELLIGENCE — Alan M. Turing (1950)
+   Distraction-Free Reader Stylesheet
+   ========================================================================== */
+
+:root {
+    --font-scale: 1.05rem;
+    --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+    --font-display: 'Cinzel', 'Newsreader', Georgia, serif;
+
+    --sidebar-width: 290px;
+    --content-max-width: 68ch;
+    --header-height: 56px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Themes
+   -------------------------------------------------------------------------- */
+
+/* Light Theme (Clean Academic Paper) */
+html[data-theme="light"] {
+    --bg-base: #fcfbf9;
+    --bg-surface: #ffffff;
+    --bg-surface-elevated: #f7f5f0;
+    --bg-sidebar: #f7f5f0;
+    --border-subtle: #e6e2d8;
+    --border-strong: #d2ccbf;
+    --text-main: #1f1e1d;
+    --text-secondary: #5a554e;
+    --text-muted: #878074;
+    --text-light: #aba396;
+    --accent: #9a3412;
+    --accent-hover: #7c2d12;
+    --accent-subtle: #ffedd5;
+    --dialogue-bg: #f9f7f2;
+    --dialogue-border: #e8e2d5;
+    --speaker-interrogator: #0369a1;
+    --speaker-candidate: #047857;
+    --code-bg: #f3f0e8;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Parchment Theme (Warm Library Sepia) */
+html[data-theme="parchment"] {
+    --bg-base: #f5eedb;
+    --bg-surface: #faefe0;
+    --bg-surface-elevated: #ede2cd;
+    --bg-sidebar: #ede2cd;
+    --border-subtle: #ded1b8;
+    --border-strong: #caba9e;
+    --text-main: #2d2417;
+    --text-secondary: #5e523f;
+    --text-muted: #877864;
+    --text-light: #ad9e88;
+    --accent: #872800;
+    --accent-hover: #6b2000;
+    --accent-subtle: #ebd7be;
+    --dialogue-bg: #ece0ca;
+    --dialogue-border: #dbcbb0;
+    --speaker-interrogator: #0f6277;
+    --speaker-candidate: #246a48;
+    --code-bg: #e6dac1;
+    --shadow-sm: 0 1px 3px rgba(45, 36, 23, 0.06);
+    --shadow-md: 0 4px 14px rgba(45, 36, 23, 0.09);
+    --shadow-lg: 0 10px 30px rgba(45, 36, 23, 0.12);
+}
+
+/* Dark Theme (Obsidian Night Reader) */
+html[data-theme="dark"] {
+    --bg-base: #121214;
+    --bg-surface: #1a1a1e;
+    --bg-surface-elevated: #222228;
+    --bg-sidebar: #17171a;
+    --border-subtle: #2d2d34;
+    --border-strong: #40404a;
+    --text-main: #e6e6ea;
+    --text-secondary: #a2a2ad;
+    --text-muted: #74747f;
+    --text-light: #52525c;
+    --accent: #f97316;
+    --accent-hover: #fb923c;
+    --accent-subtle: #431f0a;
+    --dialogue-bg: #18181d;
+    --dialogue-border: #2c2c36;
+    --speaker-interrogator: #38bdf8;
+    --speaker-candidate: #34d399;
+    --code-bg: #1e1e24;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   Reset & Base Styles
+   -------------------------------------------------------------------------- */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: var(--font-serif);
+    font-size: var(--font-scale);
+    line-height: 1.76;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* Selection */
+::selection {
+    background-color: var(--accent-subtle);
+    color: var(--text-main);
+}
+
+/* --------------------------------------------------------------------------
+   Top Progress Bar
+   -------------------------------------------------------------------------- */
+
+#progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: transparent;
+    z-index: 1000;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.08s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   Top Navigation Deck
+   -------------------------------------------------------------------------- */
+
+#top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    height: var(--header-height);
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm);
+    transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+.topbar-inner {
+    max-width: 1540px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.topbar-branding {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.topbar-paper-title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.topbar-author {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-shrink: 0;
+}
+
+.read-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.divider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--border-subtle);
+    margin: 0 0.2rem;
+}
+
+/* Control Buttons */
+.icon-btn, .control-btn, .theme-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.icon-btn {
+    padding: 0.4rem 0.65rem;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.icon-btn:hover, .control-btn:hover, .theme-btn:hover {
+    background-color: var(--bg-surface-elevated);
+    border-color: var(--border-strong);
+    color: var(--text-main);
+}
+
+.control-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.font-controls {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.theme-controls {
+    display: flex;
+    background: var(--bg-base);
+    padding: 2px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+}
+
+.theme-btn {
+    border: none;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    border-radius: 3px;
+    color: var(--text-muted);
+}
+
+.theme-btn.active {
+    background: var(--bg-surface);
+    color: var(--accent);
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+
+.cite-btn {
+    color: var(--accent);
+    border-color: var(--accent-subtle);
+    background: var(--accent-subtle);
+}
+
+.cite-btn:hover {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   App Layout
+   -------------------------------------------------------------------------- */
+
+.app-layout {
+    display: flex;
+    max-width: 1540px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar Table of Contents
+   -------------------------------------------------------------------------- */
+
+.sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-subtle);
+    transition: transform var(--transition-normal);
+}
+
+.sidebar-sticky {
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    padding: 1.5rem 1.2rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-subtle) transparent;
+}
+
+.sidebar-sticky::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar-sticky::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border-radius: 3px;
+}
+
+.toc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.toc-title {
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.close-btn {
+    display: none;
+    border: none;
+    padding: 0.2rem 0.4rem;
+}
+
+.toc-list, .toc-sublist {
+    list-style: none;
+}
+
+.toc-item {
+    margin-bottom: 0.35rem;
+}
+
+.toc-link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.38rem 0.55rem;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    transition: all var(--transition-fast);
+}
+
+.toc-bullet {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 3px;
+    background: var(--bg-surface-elevated);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+}
+
+.toc-link:hover {
+    color: var(--text-main);
+    background-color: var(--bg-surface);
+}
+
+.toc-item.active > .toc-link {
+    background-color: var(--bg-surface);
+    color: var(--accent);
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+
+.toc-item.active > .toc-link .toc-bullet {
+    background-color: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+/* Sub-items (The 9 Objections) */
+.toc-sublist {
+    margin-left: 1.4rem;
+    padding-left: 0.65rem;
+    border-left: 1.5px solid var(--border-subtle);
+    margin-top: 0.25rem;
+    margin-bottom: 0.4rem;
+    display: none; /* hidden until section 6 active */
+}
+
+.toc-item.active .toc-sublist,
+.toc-item.expanded .toc-sublist {
+    display: block;
+}
+
+.toc-subitem {
+    margin-bottom: 0.2rem;
+}
+
+.toc-sublink {
+    display: block;
+    padding: 0.22rem 0.45rem;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    line-height: 1.35;
+    transition: all var(--transition-fast);
+}
+
+.toc-sublink .toc-num {
+    font-weight: 600;
+    margin-right: 0.2rem;
+}
+
+.toc-sublink:hover {
+    color: var(--text-main);
+}
+
+.toc-subitem.active .toc-sublink {
+    color: var(--accent);
+    font-weight: 600;
+    background-color: var(--accent-subtle);
+}
+
+.sidebar-backdrop {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Main Reader Container
+   -------------------------------------------------------------------------- */
+
+.reader-main {
+    flex: 1;
+    min-width: 0;
+    padding: 3.5rem 2rem 6rem;
+    position: relative;
+}
+
+.paper-article {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Paper Header
+   -------------------------------------------------------------------------- */
+
+.paper-header {
+    margin-bottom: 4rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 2px solid var(--border-subtle);
+    text-align: center;
+}
+
+.journal-stamp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.journal-name {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-main);
+}
+
+.journal-volume {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+}
+
+.journal-issue {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+}
+
+.paper-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.03em;
+    color: var(--text-main);
+    margin-bottom: 1.5rem;
+}
+
+.author-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    margin-bottom: 2.25rem;
+}
+
+.author-by {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.author-name {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.author-affiliation {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.header-abstract-banner {
+    margin: 2rem 0;
+    padding: 1.5rem 1.75rem;
+    background-color: var(--bg-surface-elevated);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--accent);
+    text-align: left;
+}
+
+.abstract-quote {
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.68;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.quick-jump-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.jump-label {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.jump-chip {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.3rem 0.65rem;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.jump-chip:hover {
+    background: var(--accent-subtle);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Paper Sections & Typography
+   -------------------------------------------------------------------------- */
+
+.paper-section {
+    margin-bottom: 4.5rem;
+    position: relative;
+}
+
+.section-header {
+    margin-bottom: 1.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--text-main);
+    line-height: 1.35;
+}
+
+.section-content p {
+    margin-bottom: 1.4rem;
+    text-align: justify;
+    hyphens: auto;
+}
+
+/* Drop-Cap for Section 1 opening */
+#sec-1 .section-content > p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    line-height: 0.85;
+    float: left;
+    margin-top: 0.15rem;
+    margin-right: 0.6rem;
+    padding-bottom: 0.1rem;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.section-content em {
+    font-style: italic;
+}
+
+.section-content var {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 600;
+    padding: 0 0.1em;
+}
+
+.section-content sub, .section-content sup {
+    font-size: 0.75em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+.section-content sub {
+    bottom: -0.25em;
+}
+
+.section-content sup {
+    top: -0.5em;
+}
+
+.section-content ol, .section-content ul {
+    margin: 1.25rem 0 1.5rem 2rem;
+}
+
+.section-content li {
+    margin-bottom: 0.5rem;
+}
+
+.section-content blockquote {
+    margin: 1.75rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 3px solid var(--border-strong);
+    background-color: var(--bg-surface-elevated);
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Original Mind Margin Page Markers
+   -------------------------------------------------------------------------- */
+
+.page-marker {
+    display: block;
+    position: relative;
+    height: 0;
+    overflow: visible;
+}
+
+.page-marker-badge {
+    position: absolute;
+    right: -84px;
+    top: -0.2rem;
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 3px;
+    padding: 0.1rem 0.35rem;
+    letter-spacing: 0.02em;
+    user-select: none;
+    transition: all var(--transition-fast);
+}
+
+.page-marker-badge:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-subtle);
+}
+
+/* --------------------------------------------------------------------------
+   Dialogue / Imitation Game Cards
+   -------------------------------------------------------------------------- */
+
+.dialogue-card {
+    margin: 2rem 0;
+    background: var(--dialogue-bg);
+    border: 1px solid var(--dialogue-border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.dialogue-turn {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+    align-items: baseline;
+}
+
+.dialogue-turn:last-child {
+    margin-bottom: 0;
+}
+
+.speaker-label {
+    flex-shrink: 0;
+    min-width: 105px;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.speaker-interrogator .speaker-label {
+    background-color: rgba(3, 105, 161, 0.12);
+    color: var(--speaker-interrogator);
+    border-color: rgba(3, 105, 161, 0.25);
+}
+
+.speaker-candidate .speaker-label {
+    background-color: rgba(4, 120, 87, 0.12);
+    color: var(--speaker-candidate);
+    border-color: rgba(4, 120, 87, 0.25);
+}
+
+.speech-bubble, .speech-content {
+    flex: 1;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--text-main);
+}
+
+.speech-bubble p {
+    margin-bottom: 0.4rem;
+    text-align: left;
+}
+
+.speech-bubble p:last-child {
+    margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Section 6: The 9 Objections
+   -------------------------------------------------------------------------- */
+
+.objection-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 2.75rem 0 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1.5px dashed var(--border-strong);
+    scroll-margin-top: calc(var(--header-height) + 1.5rem);
+}
+
+.objection-badge {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 700;
+    background-color: var(--accent);
+    color: #ffffff;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+}
+
+.objection-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-main);
+    line-height: 1.35;
+}
+
+/* --------------------------------------------------------------------------
+   Tables (Section 5)
+   -------------------------------------------------------------------------- */
+
+.table-container {
+    margin: 2rem 0;
+    overflow-x: auto;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 0.5rem;
+}
+
+.turing-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.turing-table th, .turing-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-subtle);
+}
+
+.turing-table th {
+    background-color: var(--bg-surface-elevated);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.turing-table td var, .turing-table th var {
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+.turing-table tr:hover td {
+    background-color: var(--accent-subtle);
+}
+
+/* --------------------------------------------------------------------------
+   Footnotes
+   -------------------------------------------------------------------------- */
+
+.fn-ref {
+    font-size: 0.78em;
+    line-height: 0;
+    vertical-align: super;
+    margin-left: 0.15em;
+}
+
+.fn-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    padding: 0 0.15em;
+    border-radius: 2px;
+    transition: background-color var(--transition-fast);
+}
+
+.fn-link:hover {
+    background-color: var(--accent-subtle);
+}
+
+.footnotes-section {
+    border-top: 2px solid var(--border-strong);
+    padding-top: 2.5rem;
+    margin-top: 4rem;
+}
+
+.footnotes-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.footnote-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.fn-number {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.fn-content p {
+    margin: 0;
+    text-align: left;
+}
+
+.fn-backlink {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 0.35rem;
+}
+
+.fn-backlink:hover {
+    text-decoration: underline;
+}
+
+/* Footnote Popover (Hover/Click Tooltip) */
+.fn-popover {
+    position: absolute;
+    z-index: 1050;
+    max-width: 380px;
+    width: 90vw;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 1rem 1.15rem;
+    display: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.fn-popover.visible {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.popover-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.popover-title {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+}
+
+.popover-close-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding: 0.1rem 0.3rem;
+}
+
+.popover-body {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--text-main);
+}
+
+.popover-footer {
+    margin-top: 0.6rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid var(--border-subtle);
+    text-align: right;
+}
+
+.popover-jump-link {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.popover-jump-link:hover {
+    text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Bibliography
+   -------------------------------------------------------------------------- */
+
+.bibliography-section ol {
+    list-style-type: decimal;
+    margin-left: 2rem;
+}
+
+.bibliography-section li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    text-align: left;
+}
+
+/* --------------------------------------------------------------------------
+   Colophon
+   -------------------------------------------------------------------------- */
+
+.colophon-section {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.colophon-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.75rem;
+}
+
+.colophon-item h4 {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+}
+
+.colophon-item p {
+    font-size: 0.92rem;
+    line-height: 1.62;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    text-align: left;
+}
+
+/* --------------------------------------------------------------------------
+   Citation Modal
+   -------------------------------------------------------------------------- */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1100;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+}
+
+.modal-card {
+    position: relative;
+    z-index: 1110;
+    width: 90%;
+    max-width: 580px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 1.75rem;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.modal-header h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.modal-close-btn {
+    border: none;
+    background: transparent;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.cite-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 0.5rem;
+}
+
+.cite-tab-btn {
+    background: transparent;
+    border: none;
+    padding: 0.35rem 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.cite-tab-btn.active {
+    background: var(--accent-subtle);
+    color: var(--accent);
+}
+
+.cite-panel {
+    display: none;
+}
+
+.cite-panel.active {
+    display: block;
+}
+
+.cite-code {
+    background: var(--code-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--text-main);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 1rem;
+}
+
+.copy-cite-btn {
+    width: 100%;
+    padding: 0.6rem;
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.copy-cite-btn:hover {
+    background: var(--accent-hover);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1200px) {
+    .page-marker-badge {
+        position: static;
+        display: inline-block;
+        margin: 0.5rem 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1020;
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-sticky {
+        height: 100vh;
+        top: 0;
+        padding-top: 1.25rem;
+    }
+
+    .close-btn {
+        display: inline-block;
+    }
+
+    .sidebar-backdrop.active {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1010;
+    }
+
+    .reader-main {
+        padding: 2.5rem 1.25rem 5rem;
+    }
+
+    .topbar-branding {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .topbar-right .read-stats,
+    .topbar-right .divider {
+        display: none;
+    }
+
+    .dialogue-turn {
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .speaker-label {
+        min-width: unset;
+        display: inline-block;
+        align-self: flex-start;
+    }
+
+    .section-content p {
+        text-align: left;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Print Stylesheet
+   -------------------------------------------------------------------------- */
+
+@media print {
+    #top-bar, #sidebar, .sidebar-backdrop, .fn-popover, #cite-modal, .quick-jump-bar {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
+    }
+
+    .reader-main {
+        padding: 0 !important;
+        max-width: 100% !important;
+    }
+
+    .paper-article {
+        max-width: 100% !important;
+    }
+
+    .dialogue-card, .table-container, .footnote-item {
+        break-inside: avoid;
+    }
+}
