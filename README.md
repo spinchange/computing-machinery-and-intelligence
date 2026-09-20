@@ -63,6 +63,6 @@ This project is self-contained (zero build dependencies, pure HTML5/CSS3/vanilla
 
 ## ⚖️ Legal & License
 
-Alan Turing passed away on June 7, 1954. Under international copyright conventions (life of author plus 70 years), Alan Turing's original 1950 text entered the **Public Domain** on January 1, 2025.
+Alan Turing passed away on June 7, 1954. In the United Kingdom and other life-plus-70 copyright jurisdictions, Alan Turing's original writings entered the **Public Domain** on January 1, 2025. (Copyright status in other jurisdictions, such as the United States where protection for foreign works published in 1950 may run for 95 years from publication through 2046, may differ).
 
-This digital edition, layout, typography, and accompanying code are dedicated to the public domain under the [Creative Commons Zero (CC0 1.0 Universal) Deed](https://creativecommons.org/publicdomain/zero/1.0/).
+The typography, digital formatting, responsive layout, and accompanying code of this edition are dedicated to the public domain under the [Creative Commons Zero (CC0 1.0 Universal) Deed](https://creativecommons.org/publicdomain/zero/1.0/).

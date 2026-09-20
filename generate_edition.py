@@ -2,7 +2,7 @@ import sys
 import os
 import re
 import urllib.request
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag, NavigableString
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -33,10 +33,54 @@ objections_meta = [
 
 objection_dict = {slug: (num, title) for slug, num, title in objections_meta}
 
-def clean_text(html_str):
+def apply_ocr_and_text_fixes(html_str, fname):
+    # 1. Soft hyphens removal
     html_str = html_str.replace('&#173;', '').replace('\xad', '')
+    
+    # 2. General OCR fixes from user feedback
     html_str = html_str.replace('apart front the other two', 'apart from the other two')
     html_str = html_str.replace('does calculations in his bead', 'does calculations in his head')
+    html_str = html_str.replace('hearing -their voices', 'hearing their voices')
+    html_str = html_str.replace('put the-resulting number', 'put the resulting number')
+    html_str = html_str.replace('mostly he willing', 'mostly be willing')
+    html_str = html_str.replace('ought to he the same', 'ought to be the same')
+    html_str = html_str.replace('we should took rather', 'we should look rather')
+    html_str = html_str.replace('sonic other simpler', 'some other simpler')
+    html_str = html_str.replace('very, well expressed', 'very well expressed')
+    html_str = html_str.replace('And so on, What would', 'And so on. What would')
+    
+    # Stray quote in laws of behaviour’’
+    html_str = html_str.replace('laws of behaviour’\u2019', 'laws of behaviour’')
+    html_str = html_str.replace('laws of behaviour\'\'', 'laws of behaviour’')
+    html_str = html_str.replace('laws of behaviour’’', 'laws of behaviour’')
+    
+    # Stray space in exponent 10^ 150,000
+    html_str = re.sub(r'10<sup>\s+150,000</sup>', '10<sup>150,000</sup>', html_str)
+    
+    # British spelling "behaviour" (two instances of American "behavior")
+    # Section 5: "mimic the behavior of any" -> "mimic the behaviour of any"
+    # Section 7: "predict his pupil’s behavior" -> "predict his pupil’s behaviour"
+    html_str = re.sub(r'\bbehavior\b', 'behaviour', html_str)
+    
+    # §7: "should he able to speed it up" -> "should be able to speed it up"
+    html_str = html_str.replace('should he able to speed it up', 'should be able to speed it up')
+    
+    # Manuscript page reference in Section 6: "quoted on p. 21"
+    # Refers to Jefferson's quote on pp. 445-446
+    html_str = re.sub(
+        r'quoted on\s*(?:<abbr[^>]*>)?p\.(?:</abbr>)?\s*21',
+        'quoted on <a class="page-link" href="#p445" title="Turing’s manuscript p. 21; see pp. 445–446 in this edition">p. 21 (pp. 445–446)</a>',
+        html_str
+    )
+    
+    # Manuscript page reference in Section 7: "on pp. 24, 25."
+    # Refers to Section 6 objection (5) on pp. 448-449
+    html_str = re.sub(
+        r'on\s*(?:<abbr[^>]*>)?pp\.(?:</abbr>)?\s*24,\s*25',
+        'on <a class="page-link" href="#p448" title="Turing’s manuscript pp. 24–25; see pp. 448–449 in this edition">pp. 24, 25 (pp. 448–449)</a>',
+        html_str
+    )
+    
     return html_str
 
 footnotes = {
@@ -65,17 +109,17 @@ footnotes = {
 def transform_links(soup):
     for a in soup.find_all('a'):
         href = a.get('href', '')
-        href = re.sub(r'section-1\.xhtml', '#sec-1', href)
-        href = re.sub(r'section-2\.xhtml', '#sec-2', href)
-        href = re.sub(r'section-3\.xhtml', '#sec-3', href)
-        href = re.sub(r'section-4\.xhtml#page-(\d+)', r'#p\1', href)
-        href = re.sub(r'section-4\.xhtml', '#sec-4', href)
-        href = re.sub(r'section-5\.xhtml', '#sec-5', href)
-        href = re.sub(r'section-6\.xhtml#page-(\d+)', r'#p\1', href)
-        href = re.sub(r'section-6\.xhtml', '#sec-6', href)
-        href = re.sub(r'section-7\.xhtml#page-(\d+)', r'#p\1', href)
-        href = re.sub(r'section-7\.xhtml', '#sec-7', href)
+        if not href:
+            continue
+        # Section-prefixed page anchors first: section-7.xhtml#page-456 -> #p456
+        href = re.sub(r'section-\d+\.xhtml#page-(\d+)', r'#p\1', href)
+        # Direct page anchors: #page-448 -> #p448
+        href = re.sub(r'#page-(\d+)', r'#p\1', href)
+        # Section links without page anchor: section-1.xhtml -> #sec-1
+        href = re.sub(r'section-(\d+)\.xhtml', r'#sec-\1', href)
         href = re.sub(r'bibliography\.xhtml', '#sec-bib', href)
+        if href.startswith('#sec-') and '#p' in href:
+            href = '#' + href.split('#')[-1]
         a['href'] = href
 
 def transform_footnotes_in_text(soup):
@@ -96,69 +140,104 @@ def transform_footnotes_in_text(soup):
     for aside in soup.find_all('aside'):
         aside.decompose()
 
+def create_page_marker(soup, pg):
+    marker = soup.new_tag('span', **{
+        'class': 'page-marker',
+        'id': f'p{pg}',
+        'data-page': pg,
+        'title': f'Original publication in Mind, page {pg}'
+    })
+    badge = soup.new_tag('span', **{'class': 'page-marker-badge'})
+    badge.string = f'p. {pg}'
+    marker.append(badge)
+    return marker
+
 def transform_pagebreaks(soup):
     for sp in soup.find_all('span', attrs={'epub:type': 'pagebreak'}):
         pg = sp.get('title') or sp.get('id', '').replace('page-', '')
-        marker = soup.new_tag('span', **{
-            'class': 'page-marker',
-            'id': f'p{pg}',
-            'data-page': pg,
-            'title': f'Original Mind journal page {pg}'
-        })
-        badge = soup.new_tag('span', **{'class': 'page-marker-badge'})
-        badge.string = f'p. {pg}'
-        marker.append(badge)
+        marker = create_page_marker(soup, pg)
         sp.replace_with(marker)
 
-def transform_dialogues(soup, fname):
-    if fname == 'section-1.xhtml':
-        ps = soup.find_all('p')
-        for i, p in enumerate(ps):
-            t = p.get_text().strip()
-            if 'Will' in t and 'please tell me the length of his or her hair?' in t:
-                if i + 1 < len(ps):
-                    next_p = ps[i+1]
-                    card = soup.new_tag('div', **{'class': 'dialogue-card imitation-intro'})
-                    
-                    turn1 = soup.new_tag('div', **{'class': 'dialogue-turn speaker-interrogator'})
-                    badge1 = soup.new_tag('div', **{'class': 'speaker-label'})
-                    badge1.string = 'Interrogator (C)'
-                    bubble1 = soup.new_tag('div', **{'class': 'speech-bubble'})
-                    bubble1.append(BeautifulSoup('Will <var>X</var> please tell me the length of his or her hair?', 'html.parser'))
-                    turn1.append(badge1)
-                    turn1.append(bubble1)
-                    
-                    turn2 = soup.new_tag('div', **{'class': 'dialogue-turn speaker-candidate'})
-                    badge2 = soup.new_tag('div', **{'class': 'speaker-label'})
-                    badge2.string = 'Candidate (A)'
-                    bubble2 = soup.new_tag('div', **{'class': 'speech-bubble'})
-                    bubble2.append(BeautifulSoup('“My hair is shingled, and the longest strands are about nine inches long.”', 'html.parser'))
-                    turn2.append(badge2)
-                    turn2.append(bubble2)
-                    
-                    card.append(turn1)
-                    card.append(turn2)
-                    p.replace_with(card)
-                    next_p.decompose()
-                break
+def transform_section_1_dialogue(soup):
+    # In section 1:
+    # Turing introduces the imitation game question:
+    # "C: Will X please tell me the length of his or her hair?"
+    # Followed by narrative: "Now suppose X is actually A, then A must answer..."
+    # Followed by answer: "“My hair is shingled, and the longest strands are about nine inches long.”"
+    ps = soup.find_all('p')
+    for p in ps:
+        text = p.get_text().strip()
+        if 'Will' in text and 'length of his or her hair' in text:
+            # Turn this into an interrogator card
+            card1 = soup.new_tag('div', **{'class': 'dialogue-card single-turn'})
+            turn1 = soup.new_tag('div', **{'class': 'dialogue-turn speaker-interrogator'})
+            badge1 = soup.new_tag('div', **{'class': 'speaker-label'})
+            badge1.string = 'Interrogator (C)'
+            bubble1 = soup.new_tag('div', **{'class': 'speech-bubble'})
+            bubble1.append(BeautifulSoup('Will <var>X</var> please tell me the length of his or her hair?', 'html.parser'))
+            turn1.append(badge1)
+            turn1.append(bubble1)
+            card1.append(turn1)
+            p.replace_with(card1)
+        elif text.startswith('“My hair is shingled') or text.startswith('"My hair is shingled'):
+            # Turn this into candidate card turn (appearing ONCE)
+            card2 = soup.new_tag('div', **{'class': 'dialogue-card single-turn'})
+            turn2 = soup.new_tag('div', **{'class': 'dialogue-turn speaker-candidate'})
+            badge2 = soup.new_tag('div', **{'class': 'speaker-label'})
+            badge2.string = 'Candidate (A)'
+            bubble2 = soup.new_tag('div', **{'class': 'speech-bubble'})
+            bubble2.append(BeautifulSoup('“My hair is shingled, and the longest strands are about nine inches long.”', 'html.parser'))
+            turn2.append(badge2)
+            turn2.append(bubble2)
+            card2.append(turn2)
+            p.replace_with(card2)
 
+def transform_dialogues(soup):
     for dl in soup.find_all('dl', class_=re.compile(r'conversation')):
         card = soup.new_tag('div', **{'class': 'dialogue-card script-format'})
         dts = dl.find_all('dt')
         dds = dl.find_all('dd')
+        
         for dt, dd in zip(dts, dds):
+            # Check if there is a page marker inside <dt>
+            page_marker = dt.find('span', class_='page-marker')
+            if page_marker:
+                # Extract it so it sits before the dialogue turn
+                card.append(page_marker.extract())
+            
+            # Now extract clean speaker name
             raw_spk = dt.get_text().strip().rstrip(':').strip()
+            # If there was an unhandled pagebreak in dt
+            raw_spk = re.sub(r'p\.\s*\d+', '', raw_spk).strip()
+            
             cls = 'speaker-interrogator' if raw_spk in ['Q', 'Interrogator'] else 'speaker-candidate'
             
             turn = soup.new_tag('div', **{'class': f'dialogue-turn {cls}'})
             label = soup.new_tag('div', **{'class': 'speaker-label'})
             label.string = raw_spk
             bubble = soup.new_tag('div', **{'class': 'speech-bubble'})
-            for c in dd.contents:
+            
+            # Use list copy of contents to prevent Beautiful Soup mutation skip bug!
+            for c in list(dd.contents):
                 bubble.append(c)
+                
+            # Verify chess notation in §2: ensure it is fully present
+            bubble_text = bubble.get_text()
+            if 'I have' in bubble_text and 'at my' in bubble_text and 'and no other pieces' in bubble_text:
+                bubble.clear()
+                bubble.append(BeautifulSoup(
+                    'I have <strong>K</strong> at my <strong>K1</strong>, and no other pieces. '
+                    'You have only <strong>K</strong> at <strong>K6</strong> and <strong>R</strong> at <strong>R1</strong>. '
+                    'It is your move. What do you play?', 'html.parser'
+                ))
+            elif 'After a pause of 15 seconds' in bubble_text and 'mate' in bubble_text:
+                bubble.clear()
+                bubble.append(BeautifulSoup('(After a pause of 15 seconds) <strong>R-R8</strong> mate.', 'html.parser'))
+                
             turn.append(label)
             turn.append(bubble)
             card.append(turn)
+            
         dl.replace_with(card)
 
 def transform_section_6(soup):
@@ -187,13 +266,18 @@ sections_html = []
 for fname, sec_id, title in sections_info:
     url = base_url + fname
     raw = urllib.request.urlopen(url).read().decode('utf-8')
-    raw = clean_text(raw)
+    raw = apply_ocr_and_text_fixes(raw, fname)
     soup = BeautifulSoup(raw, 'html.parser')
     
+    transform_pagebreaks(soup)
     transform_links(soup)
     transform_footnotes_in_text(soup)
-    transform_pagebreaks(soup)
-    transform_dialogues(soup, fname)
+    
+    if fname == 'section-1.xhtml':
+        transform_section_1_dialogue(soup)
+    else:
+        transform_dialogues(soup)
+        
     transform_tables(soup)
     if fname == 'section-6.xhtml':
         transform_section_6(soup)
@@ -317,7 +401,7 @@ for sec in sections_html:
 colophon_html = '''
 <section id="sec-colophon" class="paper-section colophon-section">
     <header class="section-header">
-        <h2 class="section-title">Colophon & Historical Notes</h2>
+        <h2 class="section-title">Colophon &amp; Historical Notes</h2>
     </header>
     <div class="section-content colophon-box">
         <div class="colophon-item">
@@ -326,11 +410,11 @@ colophon_html = '''
         </div>
         <div class="colophon-item">
             <h4>Textual Fidelity</h4>
-            <p>This digital edition is faithfully transcribed from the original print pages. Soft hyphens and historical typesetting artifacts have been cleaned for modern continuous reading. Original journal page transitions are preserved as margin anchors (<em>p. 433</em> through <em>p. 460</em>). Cross-references and the four original author footnotes are linked interactively.</p>
+            <p>This digital edition is transcribed from the original 1950 print pages. Known OCR errors have been carefully corrected, while authentic 1950 grammatical and typographical idiosyncrasies (such as “possibility than an engineer”, “infinitive capacity computers”, and “possible, to programme”) have been deliberately preserved. Original journal page transitions are preserved as margin anchors (<em>p. 433</em> through <em>p. 460</em>). Internal cross-references and Turing’s original footnotes are linked interactively.</p>
         </div>
         <div class="colophon-item">
-            <h4>Copyright &amp; License</h4>
-            <p>Alan Turing passed away on June 7, 1954. Under United Kingdom and international copyright law (life of author plus 70 years), Alan Turing’s original writings entered the <strong>Public Domain</strong> on January 1, 2025. This reader edition and its formatting are released into the public domain under Creative Commons Zero (CC0).</p>
+            <h4>Copyright &amp; Licensing</h4>
+            <p>Alan Turing passed away on June 7, 1954. In the United Kingdom and other life-plus-70 copyright jurisdictions, Alan Turing’s original writings entered the <strong>Public Domain</strong> on January 1, 2025. (Copyright status in other jurisdictions, such as the United States where protection for foreign works published in 1950 may run for 95 years from publication through 2046, may differ). The typography, responsive layout, interactive features, and digital design of this edition are dedicated to the public domain under the <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">Creative Commons Zero (CC0 1.0 Universal) Deed</a>.</p>
         </div>
     </div>
 </section>
@@ -342,19 +426,30 @@ full_html = f'''<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computing Machinery and Intelligence — Alan M. Turing (1950)</title>
-    <meta name="description" content="A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper 'Computing Machinery and Intelligence' introducing the Turing Test and Imitation Game.">
+    <meta name="description" content="A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper 'Computing Machinery and Intelligence' introducing the Turing Test and the Imitation Game.">
     <meta name="author" content="Alan M. Turing">
     
-    <!-- OpenGraph / Social -->
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://spinchange.github.io/computing-machinery-and-intelligence/">
+    
+    <!-- OpenGraph / Social Metadata -->
+    <meta property="og:site_name" content="Computing Machinery and Intelligence">
     <meta property="og:title" content="Computing Machinery and Intelligence — Alan M. Turing (1950)">
-    <meta property="og:description" content="Distraction-free, beautifully formatted digital edition of Alan Turing's seminal 1950 paper.">
+    <meta property="og:description" content="A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper introducing the Turing Test and the Imitation Game.">
+    <meta property="og:url" content="https://spinchange.github.io/computing-machinery-and-intelligence/">
     <meta property="og:type" content="article">
+    <meta property="og:image" content="https://spinchange.github.io/computing-machinery-and-intelligence/og-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Computing Machinery and Intelligence by Alan M. Turing (1950)">
     
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Computing Machinery and Intelligence — Alan M. Turing (1950)">
+    <meta name="twitter:description" content="A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper introducing the Turing Test and the Imitation Game.">
+    <meta name="twitter:image" content="https://spinchange.github.io/computing-machinery-and-intelligence/og-preview.png">
     
+    <!-- Self-Hosted Stylesheet (Zero external dependencies) -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -456,11 +551,15 @@ full_html = f'''<!DOCTYPE html>
                         <p class="abstract-quote">“I propose to consider the question, <em>‘Can machines think?’</em> This should begin with definitions of the meaning of the terms ‘machine’ and ‘think’ … Instead of attempting such a definition I shall replace the question by another, which is closely related to it and is expressed in relatively unambiguous words.”</p>
                     </div>
 
+                    <!-- Comprehensive Quick Jump Bar (All 7 Sections) -->
                     <div class="quick-jump-bar">
-                        <span class="jump-label">Jump to:</span>
-                        <a href="#sec-1" class="jump-chip">1. The Imitation Game</a>
+                        <span class="jump-label">Sections:</span>
+                        <a href="#sec-1" class="jump-chip">1. Imitation Game</a>
+                        <a href="#sec-2" class="jump-chip">2. Critique</a>
+                        <a href="#sec-3" class="jump-chip">3. Machines</a>
                         <a href="#sec-4" class="jump-chip">4. Digital Computers</a>
-                        <a href="#sec-6" class="jump-chip">6. The 9 Objections</a>
+                        <a href="#sec-5" class="jump-chip">5. Universality</a>
+                        <a href="#sec-6" class="jump-chip">6. Contrary Views</a>
                         <a href="#sec-7" class="jump-chip">7. Learning Machines</a>
                     </div>
                 </header>

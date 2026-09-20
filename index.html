@@ -4,19 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computing Machinery and Intelligence — Alan M. Turing (1950)</title>
-    <meta name="description" content="A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper 'Computing Machinery and Intelligence' introducing the Turing Test and Imitation Game.">
+    <meta name="description" content="A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper 'Computing Machinery and Intelligence' introducing the Turing Test and the Imitation Game.">
     <meta name="author" content="Alan M. Turing">
     
-    <!-- OpenGraph / Social -->
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://spinchange.github.io/computing-machinery-and-intelligence/">
+    
+    <!-- OpenGraph / Social Metadata -->
+    <meta property="og:site_name" content="Computing Machinery and Intelligence">
     <meta property="og:title" content="Computing Machinery and Intelligence — Alan M. Turing (1950)">
-    <meta property="og:description" content="Distraction-free, beautifully formatted digital edition of Alan Turing's seminal 1950 paper.">
+    <meta property="og:description" content="A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper introducing the Turing Test and the Imitation Game.">
+    <meta property="og:url" content="https://spinchange.github.io/computing-machinery-and-intelligence/">
     <meta property="og:type" content="article">
+    <meta property="og:image" content="https://spinchange.github.io/computing-machinery-and-intelligence/og-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Computing Machinery and Intelligence by Alan M. Turing (1950)">
     
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Computing Machinery and Intelligence — Alan M. Turing (1950)">
+    <meta name="twitter:description" content="A distraction-free, beautifully formatted reading edition of Alan Turing's landmark 1950 paper introducing the Turing Test and the Imitation Game.">
+    <meta name="twitter:image" content="https://spinchange.github.io/computing-machinery-and-intelligence/og-preview.png">
     
+    <!-- Self-Hosted Stylesheet (Zero external dependencies) -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -169,11 +180,15 @@
                         <p class="abstract-quote">“I propose to consider the question, <em>‘Can machines think?’</em> This should begin with definitions of the meaning of the terms ‘machine’ and ‘think’ … Instead of attempting such a definition I shall replace the question by another, which is closely related to it and is expressed in relatively unambiguous words.”</p>
                     </div>
 
+                    <!-- Comprehensive Quick Jump Bar (All 7 Sections) -->
                     <div class="quick-jump-bar">
-                        <span class="jump-label">Jump to:</span>
-                        <a href="#sec-1" class="jump-chip">1. The Imitation Game</a>
+                        <span class="jump-label">Sections:</span>
+                        <a href="#sec-1" class="jump-chip">1. Imitation Game</a>
+                        <a href="#sec-2" class="jump-chip">2. Critique</a>
+                        <a href="#sec-3" class="jump-chip">3. Machines</a>
                         <a href="#sec-4" class="jump-chip">4. Digital Computers</a>
-                        <a href="#sec-6" class="jump-chip">6. The 9 Objections</a>
+                        <a href="#sec-5" class="jump-chip">5. Universality</a>
+                        <a href="#sec-6" class="jump-chip">6. Contrary Views</a>
                         <a href="#sec-7" class="jump-chip">7. Learning Machines</a>
                     </div>
                 </header>
@@ -185,7 +200,7 @@
                 <h2 class="section-title">1. The Imitation Game</h2>
             </header>
             <div class="section-content">
-                <span class="page-marker" data-page="433" id="p433" title="Original Mind journal page 433"><span class="page-marker-badge">p. 433</span></span><p class="no-indent">
+                <span class="page-marker" data-page="433" id="p433" title="Original publication in Mind, page 433"><span class="page-marker-badge">p. 433</span></span><p class="no-indent">
 <span class="first-words">I propose</span> to consider the question, “Can machines think?”
 	This should begin with definitions of the meaning of the terms ‘machine’ and ‘think’.
 	The definitions might be framed so as to reflect so far as possible the normal use of the words, but this attitude is dangerous.
@@ -199,9 +214,11 @@
 	The object of the game for the interrogator is to determine which of the other two is the man and which is the woman.
 	He knows them by labels <var>X</var> and <var>Y</var>, and at the end of the game he says either “<var>X</var> is <var>A</var> and <var>Y</var> is <var>B</var>” or “<var>X</var> is <var>B</var> and <var>Y</var> is <var>A</var>”.
 	The interrogator is allowed to put questions to <var>A</var> and <var>B</var> thus:
-</p><div class="dialogue-card imitation-intro"><div class="dialogue-turn speaker-interrogator"><div class="speaker-label">Interrogator (C)</div><div class="speech-bubble">Will <var>X</var> please tell me the length of his or her hair?</div></div><div class="dialogue-turn speaker-candidate"><div class="speaker-label">Candidate (A)</div><div class="speech-bubble">“My hair is shingled, and the longest strands are about nine inches long.”</div></div></div><p>
-	“My hair is shingled, and the longest strands are about nine inches long.”
-</p><p>
+</p><div class="dialogue-card single-turn"><div class="dialogue-turn speaker-interrogator"><div class="speaker-label">Interrogator (C)</div><div class="speech-bubble">Will <var>X</var> please tell me the length of his or her hair?</div></div></div><p class="no-indent">
+	Now suppose <var>X</var> is actually <var>A</var>, then <var>A</var> must answer.
+	It is <var>A</var>’s<span class="page-marker" data-page="434" id="p434" title="Original publication in Mind, page 434"><span class="page-marker-badge">p. 434</span></span> object in the game to try and cause <var>C</var> to make the wrong identification.
+	His answer might therefore be
+</p><div class="dialogue-card single-turn"><div class="dialogue-turn speaker-candidate"><div class="speaker-label">Candidate (A)</div><div class="speech-bubble">“My hair is shingled, and the longest strands are about nine inches long.”</div></div></div><p>
 	In order that tones of voice may not help the interrogator the answers should be written, or better still, typewritten.
 	The ideal arrangement is to have a teleprinter communicating between the two rooms.
 	Alternatively the question and answers can be repeated by an intermediary.
@@ -228,7 +245,7 @@
 	The new problem has the advantage of drawing a fairly sharp line between the physical and the intellectual capacities of a man.
 	No engineer or chemist claims to be able to produce a material which is indistinguishable from the human skin.
 	It is possible that at some time this might be done, but even supposing this invention available we should feel there was little point in trying to make a ‘thinking machine’ more human by dressing it up in such artificial flesh.
-	The form in which we have set the problem reflects this fact in the condition which prevents the interrogator from seeing or touching the other competitors, or hearing -their voices.
+	The form in which we have set the problem reflects this fact in the condition which prevents the interrogator from seeing or touching the other competitors, or hearing their voices.
 	Some other advantages of the proposed criterion may be shown up by specimen questions and answers.
 	Thus:
 </p><div class="dialogue-card script-format"><div class="dialogue-turn speaker-interrogator"><div class="speaker-label">Q</div><div class="speech-bubble">
@@ -244,14 +261,7 @@
 		Do you play chess?
 	</div></div><div class="dialogue-turn speaker-candidate"><div class="speaker-label">A</div><div class="speech-bubble">
 		Yes.
-	</div></div><div class="dialogue-turn speaker-candidate"><div class="speaker-label">p. 435Q</div><div class="speech-bubble">
-		I have  at my , and no other pieces.
-		You have only  at  and  at .
-		It is your move.
-		What do you play?
-	</div></div><div class="dialogue-turn speaker-candidate"><div class="speaker-label">A</div><div class="speech-bubble">
-		(After a pause of 15 seconds) <abbr title="to">-</abbr> mate.
-	</div></div></div><p>
+	</div></div><span class="page-marker" data-page="435" id="p435" title="Original publication in Mind, page 435"><span class="page-marker-badge">p. 435</span></span><div class="dialogue-turn speaker-interrogator"><div class="speaker-label">Q</div><div class="speech-bubble">I have <strong>K</strong> at my <strong>K1</strong>, and no other pieces. You have only <strong>K</strong> at <strong>K6</strong> and <strong>R</strong> at <strong>R1</strong>. It is your move. What do you play?</div></div><div class="dialogue-turn speaker-candidate"><div class="speaker-label">A</div><div class="speech-bubble">(After a pause of 15 seconds) <strong>R-R8</strong> mate.</div></div></div><p>
 	The question and answer method seems to be suitable for introducing almost any one of the fields of human endeavour that we wish to include.
 	We do not wish to penalise the machine for its inability to shine in beauty competitions, nor to penalise a man for losing in a race against an aeroplane.
 	The conditions of our game make these disabilities irrelevant.
@@ -281,7 +291,7 @@
 	We also wish to allow the possibility than an engineer or team of engineers may construct a machine which works, but whose manner of operation cannot be satisfactorily described by its constructors because they have applied a method which is largely experimental.
 	Finally, we wish to exclude from the machines men born in the usual manner.
 	It is difficult to frame the definitions so as to satisfy these three conditions.
-	One might for instance insist that the team of<span class="page-marker" data-page="436" id="p436" title="Original Mind journal page 436"><span class="page-marker-badge">p. 436</span></span> engineers should be all of one sex, but this would not really be satisfactory, for it is probably possible to rear a complete individual from a single cell of the skin (say) of a man.
+	One might for instance insist that the team of<span class="page-marker" data-page="436" id="p436" title="Original publication in Mind, page 436"><span class="page-marker-badge">p. 436</span></span> engineers should be all of one sex, but this would not really be satisfactory, for it is probably possible to rear a complete individual from a single cell of the skin (say) of a man.
 	To do so would be a feat of biological technique deserving of the very highest praise, but we would not be inclined to regard it as a case of ‘constructing a thinking machine’.
 	This prompts us to abandon the requirement that every kind of technique should be permitted.
 	We are the more ready to do so in view of the fact that the present interest in ‘thinking machines’ has been aroused by a particular kind of machine, usually called an ‘electronic computer’ or ‘digital computer’.
@@ -315,7 +325,7 @@
 	He has also an unlimited supply of paper on which he does his calculations.
 	He may also do his multiplications and additions on a ‘desk machine’, but this is not important.
 </p><p>
-	If we use the above explanation as a definition we shall be in<span class="page-marker" data-page="437" id="p437" title="Original Mind journal page 437"><span class="page-marker-badge">p. 437</span></span> danger of circularity of argument.
+	If we use the above explanation as a definition we shall be in<span class="page-marker" data-page="437" id="p437" title="Original publication in Mind, page 437"><span class="page-marker-badge">p. 437</span></span> danger of circularity of argument.
 	We avoid this by giving an outline of the means by which the desired effect is achieved.
 	A digital computer can usually be regarded as consisting of three parts:
 </p><ol class="list-lower-roman">
@@ -349,7 +359,7 @@
 	It will be noticed that the instruction takes up 10 digits and so forms one packet of information, very conveniently.
 	The control will normally take the instructions to be obeyed in the order of the positions in which they are stored, but occasionally an instruction such as
 </p><p>
-<span class="page-marker" data-page="438" id="p438" title="Original Mind journal page 438"><span class="page-marker-badge">p. 438</span></span>
+<span class="page-marker" data-page="438" id="p438" title="Original publication in Mind, page 438"><span class="page-marker-badge">p. 438</span></span>
 	“Now obey the instruction stored in position 5606, and continue from there”
 </p><p class="no-indent">
 	may be encountered, or again
@@ -370,14 +380,14 @@
 	To “programme a machine to carry out the operation <var>A</var>” means to put the appropriate instruction table into the machine so that it will do <var>A</var>.
 </p><p>
 	An interesting variant on the idea of a digital computer is a “digital computer with a random element”.
-	These have instructions involving the throwing of a die or some equivalent electronic process; one such instruction might for instance be, “Throw the die and put the-resulting number into store 1000”.
+	These have instructions involving the throwing of a die or some equivalent electronic process; one such instruction might for instance be, “Throw the die and put the resulting number into store 1000”.
 	Sometimes such a machine is described as having free will (though I would not use this phrase myself).
 	It is not normally possible to determine from observing a machine whether it has a random element, for a similar effect can be produced by such devices as making the choices depend on the digits of the decimal for π.
 </p><p>
 	Most actual digital computers have only a finite store.
 	There is no theoretical difficulty in the idea of a computer with an unlimited store.
 	Of course only a finite part can have been used at any one time.
-	Likewise only a finite amount can have been<span class="page-marker" data-page="439" id="p439" title="Original Mind journal page 439"><span class="page-marker-badge">p. 439</span></span> constructed, but we can imagine more and more being added as required.
+	Likewise only a finite amount can have been<span class="page-marker" data-page="439" id="p439" title="Original publication in Mind, page 439"><span class="page-marker-badge">p. 439</span></span> constructed, but we can imagine more and more being added as required.
 	Such computers have special theoretical interest and will be called infinitive capacity computers.
 </p><p>
 	The idea of a digital computer is an old one.
@@ -393,7 +403,7 @@
 	In the nervous system chemical phenomena are at least as important as electrical.
 	In certain computers the storage system is mainly acoustic.
 	The feature of using electricity is thus seen to be only a very superficial similarity.
-	If we wish to find such similarities we should took rather for mathematical analogies of function.
+	If we wish to find such similarities we should look rather for mathematical analogies of function.
 </p>
             </div>
         </section>
@@ -412,7 +422,7 @@
 	But there are many kinds of machine which can profitably be <em>thought</em> of as being discrete state machines.
 	For instance in considering the switches for a lighting system it is a convenient fiction that each switch must be definitely on or definitely off.
 	There must be intermediate positions, but for most purposes we can forget about them.
-	As an example of a discrete state machine we might consider a wheel which clicks<span class="page-marker" data-page="440" id="p440" title="Original Mind journal page 440"><span class="page-marker-badge">p. 440</span></span> round through 120° once a second, but may be stopped by a lever which can be operated from outside; in addition a lamp is to light in one of the positions of the wheel.
+	As an example of a discrete state machine we might consider a wheel which clicks<span class="page-marker" data-page="440" id="p440" title="Original publication in Mind, page 440"><span class="page-marker-badge">p. 440</span></span> round through 120° once a second, but may be stopped by a lever which can be operated from outside; in addition a lamp is to light in one of the positions of the wheel.
 	This machine could be described abstractly as follows.
 	The internal state of the machine (which is described by the position of the wheel) may be <var>q<sub>1</sub></var>, <var>q<sub>2</sub></var> or <var>q<sub>3</sub></var>.
 	There is an input signal <var>i<sub>0</sub></var> or <var>i<sub>1</sub></var> (position of lever).
@@ -471,7 +481,7 @@
 	It is an essential property of the mechanical systems which we have called ‘discrete state machines’ that this phenomenon does not occur.
 	Even when we consider the actual physical machines instead of the idealised machines, reasonably accurate knowledge of the state at one moment yields reasonably accurate knowledge any number of steps later.
 </p><p>
-<span class="page-marker" data-page="441" id="p441" title="Original Mind journal page 441"><span class="page-marker-badge">p. 441</span></span>
+<span class="page-marker" data-page="441" id="p441" title="Original publication in Mind, page 441"><span class="page-marker-badge">p. 441</span></span>
 	As we have mentioned, digital computers fall within the class of discrete state machines.
 	But the number of states of which such a machine is capable is usually enormously large.
 	For instance, the number for the machine now working at Manchester is about 2<sup>165,000</sup>, <abbr title="that is"><i lang="la" xml:lang="la">i.e.</i></abbr>, about 10<sup>50,000</sup>.
@@ -482,7 +492,7 @@
 	For simplicity suppose that only digits from 0 to 9 are used as symbols.
 	Variations in handwriting are ignored.
 	Suppose the computer is allowed 100 sheets of paper each containing 50 lines each with room for 30 digits.
-	Then the number of states is 10<sup>100×50×30</sup>, <abbr title="that is"><i lang="la" xml:lang="la">i.e.</i></abbr> 10<sup> 150,000</sup>.
+	Then the number of states is 10<sup>100×50×30</sup>, <abbr title="that is"><i lang="la" xml:lang="la">i.e.</i></abbr> 10<sup>150,000</sup>.
 	This is about the number of states of three Manchester machines put together.
 	The logarithm to the base two of the number of states is usually called the ‘storage capacity’ of the machine.
 	Thus the Manchester machine has a storage capacity of about 165,000 and the wheel machine of our example about 1.6.
@@ -492,14 +502,14 @@
 </p><p>
 	Given the table corresponding to a discrete state machine it is possible to predict what it will do.
 	There is no reason why this calculation should not be carried out by means of a digital computer.
-	Provided it could be carried out sufficiently quickly the digital computer could mimic the behavior of any discrete state machine.
+	Provided it could be carried out sufficiently quickly the digital computer could mimic the behaviour of any discrete state machine.
 	The imitation game could then be played with the machine in question (as <var>B</var>) and the mimicking digital computer (as <var>A</var>) and the interrogator would be unable to distinguish them.
 	Of course the digital computer must have an adequate storage capacity as well as working sufficiently fast.
 	Moreover, it must be programmed afresh for each new machine which it is desired to mimic.
 </p><p>
 	This special property of digital computers, that they can mimic any discrete state machine, is described by saying that they are <em>universal</em> machines.
 	The existence of machines with this property has the important consequence that, considerations of speed apart, it is unnecessary to design various new machines to do various computing processes.
-	They can all be<span class="page-marker" data-page="442" id="p442" title="Original Mind journal page 442"><span class="page-marker-badge">p. 442</span></span> done with one digital computer, suitably programmed for each case.
+	They can all be<span class="page-marker" data-page="442" id="p442" title="Original publication in Mind, page 442"><span class="page-marker-badge">p. 442</span></span> done with one digital computer, suitably programmed for each case.
 	It will be seen that as a consequence of this all digital computers are in a sense equivalent.
 </p><p>
 	We may now consider again the point raised at the end of <a href="#sec-3">§3</a>.
@@ -530,7 +540,7 @@
 	Provided it is made clear which are proved facts and which are conjectures, no harm can result.
 	Conjectures are of great importance since they suggest useful lines of research.
 </p><p>
-<span class="page-marker" data-page="443" id="p443" title="Original Mind journal page 443"><span class="page-marker-badge">p. 443</span></span>
+<span class="page-marker" data-page="443" id="p443" title="Original publication in Mind, page 443"><span class="page-marker-badge">p. 443</span></span>
 	I now proceed to consider opinions opposed to my own.
 </p><section epub:type="subchapter" id="subsection-6-1">
 <header class="objection-header" id="the-theological-objection"><span class="objection-badge">(1)</span><h3 class="objection-title">The Theological Objection</h3></header>
@@ -559,7 +569,7 @@
 	However, this is mere speculation.
 	I am not very impressed with theological arguments whatever they may be used to support.
 	Such arguments have often been found unsatisfactory in the past.
-	In the time of Galileo it was argued that the texts, <q>And the sun stood still… and hasted not to go down about a whole day</q> (Joshua <span class="nobr">ⅹ. 13</span>) and <q>He laid the foundations of the earth,<span class="page-marker" data-page="444" id="p444" title="Original Mind journal page 444"><span class="page-marker-badge">p. 444</span></span> that it should not move at any time</q> (Psalm <span class="nobr">ⅽⅴ. 5</span>) were an adequate refutation of the Copernican theory.
+	In the time of Galileo it was argued that the texts, <q>And the sun stood still… and hasted not to go down about a whole day</q> (Joshua <span class="nobr">ⅹ. 13</span>) and <q>He laid the foundations of the earth,<span class="page-marker" data-page="444" id="p444" title="Original publication in Mind, page 444"><span class="page-marker-badge">p. 444</span></span> that it should not move at any time</q> (Psalm <span class="nobr">ⅽⅴ. 5</span>) were an adequate refutation of the Copernican theory.
 	With our present knowledge such an argument appears futile.
 	When that knowledge was not available it made a quite different impression.
 </p>
@@ -591,7 +601,7 @@
 	The result in question refers to a type of machine which is essentially a digital computer with an infinite capacity.
 	It states that there are certain things that such a machine cannot do.
 	If it is rigged up to give answers to questions as in the imitation game, there will be some questions to which it will either give a wrong answer, or fail to give an answer at all however much time is allowed for a reply.
-	There may, of course, be many such questions, and questions which cannot be answered by one machine may be satisfactorily<span class="page-marker" data-page="445" id="p445" title="Original Mind journal page 445"><span class="page-marker-badge">p. 445</span></span> answered by another.
+	There may, of course, be many such questions, and questions which cannot be answered by one machine may be satisfactorily<span class="page-marker" data-page="445" id="p445" title="Original publication in Mind, page 445"><span class="page-marker-badge">p. 445</span></span> answered by another.
 	We are of course supposing for the present that the questions are of the kind to which an answer “Yes” or “No” is appropriate, rather than questions such as “What do you think of Picasso?”
 	The questions that we know the machines must fail on are of this type, “Consider the machine specified as follows.
 	…
@@ -613,15 +623,15 @@
 	In short, then, there might be men cleverer than any given machine, but then again there might be other machines cleverer again, and so on.
 </p>
 <p>
-	Those who hold to the mathematical argument would, I think, mostly he willing to accept the imitation game as a basis for discussion.
+	Those who hold to the mathematical argument would, I think, mostly be willing to accept the imitation game as a basis for discussion.
 	Those who believe in the two previous objections would probably not be interested in any criteria.
 </p>
 </section><section epub:type="subchapter" id="subsection-6-4">
 <header class="objection-header" id="the-argument-from-consciousness"><span class="objection-badge">(4)</span><h3 class="objection-title">The Argument from Consciousness</h3></header>
 <p>
-	This argument is very, well expressed in <cite>Professor Jefferson’s</cite> Lister Oration for 1949, from which I quote.
+	This argument is very well expressed in <cite>Professor Jefferson’s</cite> Lister Oration for 1949, from which I quote.
 	“Not until a machine can write a sonnet or compose a concerto because of thoughts and emotions felt, and not by the chance fall of symbols, could we agree that machine equals brain—that is, not only write it but know that it had written it.
-	No mechanism could feel (and not merely<span class="page-marker" data-page="446" id="p446" title="Original Mind journal page 446"><span class="page-marker-badge">p. 446</span></span> artificially signal, an easy contrivance) pleasure at its successes, grief when its valves fuse, be warmed by flattery, be made miserable by its mistakes, be charmed by sex, be angry or depressed when it cannot get what it wants.”
+	No mechanism could feel (and not merely<span class="page-marker" data-page="446" id="p446" title="Original publication in Mind, page 446"><span class="page-marker-badge">p. 446</span></span> artificially signal, an easy contrivance) pleasure at its successes, grief when its valves fuse, be warmed by flattery, be made miserable by its mistakes, be charmed by sex, be angry or depressed when it cannot get what it wants.”
 </p>
 <p>
 	This argument appears to be a denial of the validity of our test.
@@ -658,8 +668,8 @@
 		By a winter’s day one means a typical winter’s day, rather than a special one like Christmas.
 	</div></div></div>
 <p>
-	And so on, What would Professor Jefferson say if the sonnet-writing machine was able to answer like this in the <i lang="la" xml:lang="la">viva voce</i>?
-	I do not know whether he would regard the machine as “merely<span class="page-marker" data-page="447" id="p447" title="Original Mind journal page 447"><span class="page-marker-badge">p. 447</span></span> artificially signalling” these answers, but if the answers were as satisfactory and sustained as in the above passage I do not think he would describe it as “an easy contrivance”.
+	And so on. What would Professor Jefferson say if the sonnet-writing machine was able to answer like this in the <i lang="la" xml:lang="la">viva voce</i>?
+	I do not know whether he would regard the machine as “merely<span class="page-marker" data-page="447" id="p447" title="Original publication in Mind, page 447"><span class="page-marker-badge">p. 447</span></span> artificially signalling” these answers, but if the answers were as satisfactory and sustained as in the above passage I do not think he would describe it as “an easy contrivance”.
 	This phrase is, I think, intended to cover such devices as the inclusion in the machine of a record of someone reading a sonnet, with appropriate switching to turn it on from time to time.
 </p>
 <p>
@@ -679,7 +689,7 @@
 	I offer a selection:
 </p>
 <p class="separated">
-	Be kind, resourceful, beautiful, friendly (<a class="page-link" href="#page-448"><abbr title="page">p.</abbr> 448</a>), have initiative, have a sense of humour, tell right from wrong, make mistakes (<a class="page-link" href="#page-448"><abbr title="page">p.</abbr> 448</a>), fall in love, enjoy strawberries and cream (<a class="page-link" href="#page-448"><abbr title="page">p.</abbr> 448</a>), make some one fall in love with it, learn from experience (<a class="page-link" href="#p456"><abbr title="pages">pp.</abbr> 456 <abbr title="and the following">f.</abbr></a>), use words properly, be the subject of its own thought (<a class="page-link" href="#page-449"><abbr title="page">p.</abbr> 449</a>), have as much diversity of behaviour as a man, do something really new (<a class="page-link" href="#page-450"><abbr title="page">p.</abbr> 450</a>).
+	Be kind, resourceful, beautiful, friendly (<a class="page-link" href="#p448"><abbr title="page">p.</abbr> 448</a>), have initiative, have a sense of humour, tell right from wrong, make mistakes (<a class="page-link" href="#p448"><abbr title="page">p.</abbr> 448</a>), fall in love, enjoy strawberries and cream (<a class="page-link" href="#p448"><abbr title="page">p.</abbr> 448</a>), make some one fall in love with it, learn from experience (<a class="page-link" href="#p456"><abbr title="pages">pp.</abbr> 456 <abbr title="and the following">f.</abbr></a>), use words properly, be the subject of its own thought (<a class="page-link" href="#p449"><abbr title="page">p.</abbr> 449</a>), have as much diversity of behaviour as a man, do something really new (<a class="page-link" href="#p450"><abbr title="page">p.</abbr> 450</a>).
 	(Some of these disabilities are given special consideration as indicated by the page numbers.)
 </p>
 <p class="no-indent">
@@ -691,7 +701,7 @@
 	Naturally he concludes that these are necessary properties of machines in general.
 	Many of these limitations are associated with the very small storage capacity of most machines.
 	(I am assuming that the idea of storage capacity is extended in some way to cover machines other than discrete-state machines.
-	<span class="page-marker" data-page="448" id="p448" title="Original Mind journal page 448"><span class="page-marker-badge">p. 448</span></span>
+	<span class="page-marker" data-page="448" id="p448" title="Original publication in Mind, page 448"><span class="page-marker-badge">p. 448</span></span>
 	The exact definition does not matter as no mathematical accuracy is claimed in the present discussion.)
 	A few years ago, when very little had been heard of digital computers, it was possible to elicit much incredulity concerning them, if one mentioned their properties without describing their construction.
 	That was presumably due to a similar application of the principle of scientific induction.
@@ -721,7 +731,7 @@
 	A mechanical fault would probably show itself through an unsuitable decision as to what sort of a mistake to make in the arithmetic.
 	Even this interpretation of the criticism is not sufficiently sympathetic.
 	But we cannot afford the space to go into it much further.
-	It seems to me that this criticism depends<span class="page-marker" data-page="449" id="p449" title="Original Mind journal page 449"><span class="page-marker-badge">p. 449</span></span> on a confusion between two kinds of mistake.
+	It seems to me that this criticism depends<span class="page-marker" data-page="449" id="p449" title="Original publication in Mind, page 449"><span class="page-marker-badge">p. 449</span></span> on a confusion between two kinds of mistake.
 	We may call them ‘errors of functioning’ and ‘errors of conclusion’.
 	Errors of functioning are due to some mechanical or electrical fault which causes the machine to behave otherwise than it was designed to do.
 	In philosophical discussions one likes to ignore the possibility of such errors; one is therefore discussing ‘abstract machines’.
@@ -751,9 +761,9 @@
 </p>
 <p>
 	The criticisms that we are considering here are often disguised forms of the argument from consciousness.
-	Usually if one maintains that a machine can do one of these things, and describes the kind of method that the machine could use, one will not make<span class="page-marker" data-page="450" id="p450" title="Original Mind journal page 450"><span class="page-marker-badge">p. 450</span></span> much of an impression.
+	Usually if one maintains that a machine can do one of these things, and describes the kind of method that the machine could use, one will not make<span class="page-marker" data-page="450" id="p450" title="Original publication in Mind, page 450"><span class="page-marker-badge">p. 450</span></span> much of an impression.
 	It is thought that the method (whatever it may be, for it must be mechanical) is really rather base.
-	Compare the parentheses in Jefferson’s statement quoted on <abbr title="page">p.</abbr> 21.
+	Compare the parentheses in Jefferson’s statement quoted on <a class="page-link" href="#p445" title="Turing’s manuscript p. 21; see pp. 445–446 in this edition">p. 21 (pp. 445–446)</a>.
 </p>
 </section><section epub:type="subchapter" id="subsection-6-6">
 <header class="objection-header" id="lady-lovelaces-objection"><span class="objection-badge">(6)</span><h3 class="objection-title">Lady Lovelace’s Objection</h3></header>
@@ -786,8 +796,8 @@
 	This statement is a more direct challenge and can be met directly.
 	Machines take me by surprise with great frequency.
 	This is largely because I do not do sufficient calculation to decide what to expect them to do, or rather because, although I do a calculation, I do it in a hurried, slipshod fashion, taking risks.
-	Perhaps I say to myself, “I suppose the Voltage here ought to he the same as there: anyway let’s assume it is.”
-	<span class="page-marker" data-page="451" id="p451" title="Original Mind journal page 451"><span class="page-marker-badge">p. 451</span></span>
+	Perhaps I say to myself, “I suppose the Voltage here ought to be the same as there: anyway let’s assume it is.”
+	<span class="page-marker" data-page="451" id="p451" title="Original publication in Mind, page 451"><span class="page-marker-badge">p. 451</span></span>
 	Naturally I am often wrong, and the result is a surprise for me for by the time the experiment is done these assumptions have been forgotten.
 	These admissions lay me open to lectures on the subject of my vicious ways, but do not throw any doubt on my credibility when I testify to the surprises I experience.
 </p>
@@ -813,12 +823,12 @@
 <p>
 	It is true that a discrete-state machine must be different from a continuous machine.
 	But if we adhere to the conditions of the imitation game, the interrogator will not be able to take any advantage of this difference.
-	The situation can be made clearer if we consider sonic other simpler continuous machine.
+	The situation can be made clearer if we consider some other simpler continuous machine.
 	A differential analyser will do very well.
 	(A differential analyser is a certain kind of machine not of the discrete-state type used for some kinds of calculation.)
 	Some of these provide their answers in a typed form, and so are suitable for taking part in the game.
 	It would not be possible for a digital computer to predict exactly what answers the differential analyser would give to a problem, but it would be quite capable of giving the right sort of answer.
-	For instance, if asked to give the value of π (actually about 3.1416) it would be reasonable<span class="page-marker" data-page="452" id="p452" title="Original Mind journal page 452"><span class="page-marker-badge">p. 452</span></span> to choose at random between the values 3.12, 3.13, 3.14, 3.15, 3.16 with the probabilities of 0.05, 0.15, 0.55, 0.19, 0.06 (say).
+	For instance, if asked to give the value of π (actually about 3.1416) it would be reasonable<span class="page-marker" data-page="452" id="p452" title="Original publication in Mind, page 452"><span class="page-marker-badge">p. 452</span></span> to choose at random between the values 3.12, 3.13, 3.14, 3.15, 3.16 with the probabilities of 0.05, 0.15, 0.55, 0.19, 0.06 (say).
 	Under these circumstances it would be very difficult for the interrogator to distinguish the differential analyser from the digital computer.
 </p>
 </section><section epub:type="subchapter" id="subsection-6-8">
@@ -850,7 +860,7 @@
 </p>
 <p>
 	We can demonstrate more forcibly that any such statement would be unjustified.
-	For suppose we could be sure of finding<span class="page-marker" data-page="453" id="p453" title="Original Mind journal page 453"><span class="page-marker-badge">p. 453</span></span> such laws if they existed.
+	For suppose we could be sure of finding<span class="page-marker" data-page="453" id="p453" title="Original publication in Mind, page 453"><span class="page-marker-badge">p. 453</span></span> such laws if they existed.
 	Then given a discrete-state machine it should certainly be possible to discover by observation sufficient about it to predict its future behaviour, and this within a reasonable time, say a thousand years.
 	But this does not seem to be the case.
 	I have set up on the Manchester computer a small programme using only 1000 units of storage, whereby the machine supplied with one sixteen figure number replies with another within two seconds.
@@ -881,7 +891,7 @@
 	Suppose the digital computer contains a random number generator.
 	Then it will be natural to use this to decide what answer to give.
 	But then the random number generator will be subject to the psychokinetic powers of the interrogator.
-	Perhaps this psychokinesis might cause the machine to guess right more often than would be expected on a probability calculation, so that the interrogator<span class="page-marker" data-page="454" id="p454" title="Original Mind journal page 454"><span class="page-marker-badge">p. 454</span></span> might still be unable to make the right identification.
+	Perhaps this psychokinesis might cause the machine to guess right more often than would be expected on a probability calculation, so that the interrogator<span class="page-marker" data-page="454" id="p454" title="Original publication in Mind, page 454"><span class="page-marker-badge">p. 454</span></span> might still be unable to make the right identification.
 	On the other hand, he might be able to guess right without any questioning, by clairvoyance.
 	With <abbr>E.S.P.</abbr> anything may happen.
 </p>
@@ -922,7 +932,7 @@
 	In considering the functions of the mind or the brain we find certain operations which we can explain in purely mechanical terms.
 	This we say does not correspond to the real mind: it is a sort of skin which we must strip off if we are to find the real mind.
 	But then in what remains we find a further skin to be stripped off, and so on.
-	<span class="page-marker" data-page="455" id="p455" title="Original Mind journal page 455"><span class="page-marker-badge">p. 455</span></span>
+	<span class="page-marker" data-page="455" id="p455" title="Original publication in Mind, page 455"><span class="page-marker-badge">p. 455</span></span>
 	Proceeding in this way do we ever come to the ‘real’ mind, or do we eventually come to the skin which has nothing in it?
 	In the latter case the whole mind is mechanical.
 	(It would not be a discrete-state machine however.
@@ -955,7 +965,7 @@
 <li>The education to which it has been subjected,</li>
 <li>Other experience, not to be described as education, to which it has been subjected.</li>
 </ol><p>
-<span class="page-marker" data-page="456" id="p456" title="Original Mind journal page 456"><span class="page-marker-badge">p. 456</span></span>
+<span class="page-marker" data-page="456" id="p456" title="Original publication in Mind, page 456"><span class="page-marker-badge">p. 456</span></span>
 	Instead of trying to produce a programme to simulate the adult mind, why not rather try to produce one which simulates the child’s?
 	If this were then subjected to an appropriate course of education one would obtain the adult brain.
 	Presumably the child brain is something like a note-book as one buys it from the stationer’s.
@@ -996,7 +1006,7 @@
 </ul><p class="no-indent">
 	One may hope, however, that this process will be more expeditious than evolution.
 	The survival of the fittest is a slow method for measuring advantages.
-	The experimenter, by the exercise of intelligence, should he able to speed it up.
+	The experimenter, by the exercise of intelligence, should be able to speed it up.
 	Equally important is the fact that he is not restricted to random mutations.
 	If he can trace a cause for some weakness he can probably think of the kind of mutation which will improve it.
 </p><p>
@@ -1008,7 +1018,7 @@
 	We need not be too concerned about the legs, eyes, <abbr title="and so on.">etc.</abbr>
 	The example of Miss <cite>Helen Keller</cite> shows that education can take place provided that communication in both directions between teacher and pupil can take place by some means or other.
 </p><p>
-<span class="page-marker" data-page="457" id="p457" title="Original Mind journal page 457"><span class="page-marker-badge">p. 457</span></span>
+<span class="page-marker" data-page="457" id="p457" title="Original publication in Mind, page 457"><span class="page-marker-badge">p. 457</span></span>
 	We normally associate punishments and rewards with the teaching process.
 	Some simple child-machines can be constructed or programmed on this sort of principle.
 	The machine has to be so constructed that events which shortly preceded the occurrence of a punishment-signal are unlikely to be repeated, whereas a reward-signal increased the probability of repetition of the events which led up to it.
@@ -1032,7 +1042,7 @@
 	The machine should be so constructed that as soon as an imperative is classed as ‘well-established’ the appropriate action automatically takes place.
 	To illustrate this, suppose the teacher says to the machine, “Do your homework now”.
 	This may cause “Teacher says ‘Do your homework now’” to be included amongst the well-established facts.
-	Another such fact might be,<span class="page-marker" data-page="458" id="p458" title="Original Mind journal page 458"><span class="page-marker-badge">p. 458</span></span> “Everything that teacher says is true”.
+	Another such fact might be,<span class="page-marker" data-page="458" id="p458" title="Original publication in Mind, page 458"><span class="page-marker-badge">p. 458</span></span> “Everything that teacher says is true”.
 	Combining these may eventually lead to the imperative, “Do your homework now”, being included amongst the well-established facts, and this, by the construction of the machine, will mean that the homework actually gets started, but the effect is very satisfactory.
 	The processes of inference used by the machine need not be such as would satisfy the most exacting logicians.
 	There might for instance be no hierarchy of types.
@@ -1054,15 +1064,15 @@
 	The explanation of the paradox is that the rules which get changed in the learning process are of a rather less pretentious kind, claiming only an ephemeral validity.
 	The reader may draw a parallel with the Constitution of the United States.
 </p><p>
-	An important feature of a learning machine is that its teacher will often be very largely ignorant of quite what is going on inside, although he may still be able to some extent to predict his pupil’s behavior.
-	This should apply most strongly to the<span class="page-marker" data-page="459" id="p459" title="Original Mind journal page 459"><span class="page-marker-badge">p. 459</span></span> later education of a machine arising from a child-machine of well-tried design (or programme).
+	An important feature of a learning machine is that its teacher will often be very largely ignorant of quite what is going on inside, although he may still be able to some extent to predict his pupil’s behaviour.
+	This should apply most strongly to the<span class="page-marker" data-page="459" id="p459" title="Original publication in Mind, page 459"><span class="page-marker-badge">p. 459</span></span> later education of a machine arising from a child-machine of well-tried design (or programme).
 	This is in clear contrast with normal procedure when using a machine to do computations one’s object is then to have a clear mental picture of the state of the machine at each moment in the computation.
 	This object can only be achieved with a struggle.
 	The view that “the machine can only do what we know how to order it to do”,<sup><sup class="fn-ref"><a class="fn-link" data-footnote-id="fn4" href="#fn4" id="ref-fn4" title="Footnote 4">[4]</a></sup></sup> appears strange in face of this.
 	Most of the programmes which we can put into the machine will result in its doing something that we cannot make sense of at all, or which we regard as completely random behaviour.
 	Intelligent behaviour presumably consists in a departure from the completely disciplined behaviour involved in computation, but a rather slight one, which does not give rise to random behaviour, or to pointless repetitive loops.
 	Another important result of preparing our machine for its part in the imitation game by a process of teaching and learning is that ‘human fallibility’ is likely to be omitted in a rather natural way, <abbr title="that is"><i lang="la" xml:lang="la">i.e.</i></abbr> without special ‘coaching’.
-	(The reader should reconcile this with the point of view on <abbr title="pages">pp.</abbr> 24, 25.)
+	(The reader should reconcile this with the point of view on <a class="page-link" href="#p448" title="Turing’s manuscript pp. 24–25; see pp. 448–449 in this edition">pp. 24, 25 (pp. 448–449)</a>.)
 	Processes that are learnt do not produce a hundred per cent. certainty of result; if they did they could not be unlearnt.
 </p><p>
 	It is probably wise to include a random element in a learning machine (see <a class="page-link" href="#p438"><abbr title="page">p.</abbr> 438</a>).
@@ -1075,7 +1085,7 @@
 	Since there is probably a very large number of satisfactory solutions the random method seems to be better than the systematic.
 	It should be noticed that it is used in the analogous process of evolution.
 	But there the systematic method is not possible.
-	How could one keep track of the<span class="page-marker" data-page="460" id="p460" title="Original Mind journal page 460"><span class="page-marker-badge">p. 460</span></span> different genetical combinations that had been tried, so as to avoid trying them again?
+	How could one keep track of the<span class="page-marker" data-page="460" id="p460" title="Original publication in Mind, page 460"><span class="page-marker-badge">p. 460</span></span> different genetical combinations that had been tried, so as to avoid trying them again?
 </p><p>
 	We may hope that machines will eventually compete with men in all purely intellectual fields.
 	But which are the best ones to start with?
@@ -1155,7 +1165,7 @@
                 
 <section id="sec-colophon" class="paper-section colophon-section">
     <header class="section-header">
-        <h2 class="section-title">Colophon & Historical Notes</h2>
+        <h2 class="section-title">Colophon &amp; Historical Notes</h2>
     </header>
     <div class="section-content colophon-box">
         <div class="colophon-item">
@@ -1164,11 +1174,11 @@
         </div>
         <div class="colophon-item">
             <h4>Textual Fidelity</h4>
-            <p>This digital edition is faithfully transcribed from the original print pages. Soft hyphens and historical typesetting artifacts have been cleaned for modern continuous reading. Original journal page transitions are preserved as margin anchors (<em>p. 433</em> through <em>p. 460</em>). Cross-references and the four original author footnotes are linked interactively.</p>
+            <p>This digital edition is transcribed from the original 1950 print pages. Known OCR errors have been carefully corrected, while authentic 1950 grammatical and typographical idiosyncrasies (such as “possibility than an engineer”, “infinitive capacity computers”, and “possible, to programme”) have been deliberately preserved. Original journal page transitions are preserved as margin anchors (<em>p. 433</em> through <em>p. 460</em>). Internal cross-references and Turing’s original footnotes are linked interactively.</p>
         </div>
         <div class="colophon-item">
-            <h4>Copyright &amp; License</h4>
-            <p>Alan Turing passed away on June 7, 1954. Under United Kingdom and international copyright law (life of author plus 70 years), Alan Turing’s original writings entered the <strong>Public Domain</strong> on January 1, 2025. This reader edition and its formatting are released into the public domain under Creative Commons Zero (CC0).</p>
+            <h4>Copyright &amp; Licensing</h4>
+            <p>Alan Turing passed away on June 7, 1954. In the United Kingdom and other life-plus-70 copyright jurisdictions, Alan Turing’s original writings entered the <strong>Public Domain</strong> on January 1, 2025. (Copyright status in other jurisdictions, such as the United States where protection for foreign works published in 1950 may run for 95 years from publication through 2046, may differ). The typography, responsive layout, interactive features, and digital design of this edition are dedicated to the public domain under the <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">Creative Commons Zero (CC0 1.0 Universal) Deed</a>.</p>
         </div>
     </div>
 </section>

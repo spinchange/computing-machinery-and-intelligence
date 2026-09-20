@@ -3,6 +3,8 @@
    Distraction-Free Reader Stylesheet
    ========================================================================== */
 
+@import url('fonts.css');
+
 :root {
     --font-scale: 1.05rem;
     --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;

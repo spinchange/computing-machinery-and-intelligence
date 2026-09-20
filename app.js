@@ -376,7 +376,7 @@
     // --------------------------------------------------------------------------
     // Initialization
     // --------------------------------------------------------------------------
-    window.addEventListener('DOMContentLoaded', () => {
+    function initApp() {
         initTheme();
         initFontScaling();
         initScrollspy();
@@ -387,5 +387,11 @@
         // Passive scroll listener for progress bar
         window.addEventListener('scroll', updateProgress, { passive: true });
         updateProgress();
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+        initApp();
+    }
 })();
